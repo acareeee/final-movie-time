@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Forgot Password</title>
-  
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  
+
     <!-- Bootstrap -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
     <style>
         body {
             background: #f7f9fc;
             font-family: 'Roboto', sans-serif;
         }
+
         .card {
             margin: auto;
-            max-width: 550px;
+            max-width: 450px;
             border-radius: 15px;
             background: #fff;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         .card-body {
-            padding: 2rem;
+            padding: 3rem;
         }
+
         h4 {
             font-weight: bold;
             color: #333;
         }
+
         .form-control {
             border-radius: 5px;
+            padding: 15px;
+            font-size: 16px;
         }
+
         .btn-success {
-            background: #28a745;
+            background: #f3d334;
             border: none;
+            padding: 15px 20px;
+            font-size: 18px;
+            width: 100%;
+            border-radius: 10px;
         }
+
         .btn-success:hover {
-            background: #218838;
+            background: #dc3545;
         }
-        .text-danger {
-            color: #dc3545;
-        }
+
     </style>
 </head>
 
@@ -53,21 +64,27 @@
     <section class="vh-100 d-flex justify-content-center align-items-center">
         <div class="card">
             <div class="card-body">
-                <h4 class="text-uppercase text-center mb-5">Forgot Password</h4>
+                <h4 class="text-uppercase text-center mb-4">Forgot Password</h4>
                 <form action="/forgot-password" method="POST">
-                  <div class="form-outline mb-4">
-                      <label for="username" class="form-label">Username</label>
-                      <input type="text" name="username" required 
-                             class="form-control form-control-lg"
-                             placeholder="Enter your username" />
-                  </div>
-                  <div class="text-danger mb-3"><%= message || '' %></div>
-                  <div class="text-center">
-                      <button type="submit" class="btn btn-success btn-lg">Submit</button>
-                  </div>
-              </form>              
+                    <div class="form-group mb-4">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" required class="form-control form-control-lg"
+                            placeholder="Enter your username" />
+                    </div>
+                    <!-- Error Message -->
+                    <div class="text-danger mb-3">
+                        <%= message || '' %>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success btn-lg">Submit</button>
+                    </div>
+                </form>
+                <div class="footer">
+                    <p>Remember your password? <a href="/login">Go back to login</a></p>
+                </div>
             </div>
         </div>
     </section>
 </body>
+
 </html>

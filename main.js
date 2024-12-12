@@ -383,7 +383,32 @@ app.post('/forgot-password', async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: 'A new temporary password has been sent to your email.' });
+        // Returning a styled HTML message along with JSON response
+        res.send(`
+            <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f4f4f9; text-align: center;">
+                <h2 style="color: #333;">Temporary Password Sent</h2>
+                <p style="font-size: 18px; color: #555;">A new temporary password has been sent to your email.</p>
+                <p style="font-size: 18px; color: #28a745;">Please check your inbox📥</p>
+                <a href="/login">
+                    <button style="
+                        font-size: 16px;
+                        padding: 12px 25px;
+                        background-color: #28a745;
+                        color: white;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        text-align: center;
+                        margin-top: 20px;
+                        transition: background-color 0.3s ease;">
+                        Go to Login
+                    </button>
+                </a>
+            </div>
+            <script>
+                console.log('Temporary password sent successfully');
+            </script>
+        `);
     } catch (error) {
         console.error('Error in forgot password route:', error);
         res.status(500).json({ message: 'An error occurred.' });
