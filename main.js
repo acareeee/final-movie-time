@@ -12,7 +12,7 @@ const { check, validationResult } = require('express-validator');
 const router = express.Router();
 const app = express();
 const prisma = new PrismaClient();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const crypto = require('crypto');
 const argon2 = require('argon2');
 
