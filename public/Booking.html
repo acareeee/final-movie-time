@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/main.css" />
+
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(#fae6e1, #f3dfd8);
+            font-family: "Lato", sans-serif;
+        }
+        .theater-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 0;
+        }
+        .theater {
+            width: 600px;
+            min-height: 700px;
+            background: var(--background, #ffffff);
+            border-radius: 20px;
+            box-shadow: 0 2px 10px -8px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .screen {
+            width: 90%;
+            height: 40px;
+            border-radius: 10px;
+            background-color: #ccc;
+            margin-bottom: 20px;
+        }
+        .seats {
+            display: grid;
+            grid-template-columns: repeat(10, 20px);
+            grid-gap: 30px;
+        }
+        .seat {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--color, #2c2f62);
+            cursor: pointer;
+        }
+        .seat.reserved {
+            background: hsl(0, 0%, 95%);
+            pointer-events: none;
+        }
+        .seat.available {
+            background: #2dcff8;
+        }
+        .seat.selected {
+            background: var(--accent, #fd6d8e);
+        }
+        /* Price box and button layout */
+        .price-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .price-box {
+            background: #f0f0f0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .price-box span {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        /* Darker color for the back seats */
+        .seat.back {
+            background: #5a2d6e; /* Darker color for back seats */
+        }
+        .seat.front {
+            background: #2dcff8; /* Lighter color for front seats */
+        }
+        .receipt-container {
+            width: 210px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 100px;
+            right: 20px;
+        }
+        .movie-poster {
+            width: 90%;
+            height: auto;
+            border-radius: 5px;
+        }
+                .time-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .time-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #2c2f62;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .time-button:hover {
+            background-color: #fd6d8e;
+        }
+
+        .time-button.selected {
+            background-color: #f95c2a;
+        }
+
+        @media (max-width: 768px) {
+            .time-button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a href="Home.html" class="nav-link ">Home</a></li>
+                        <li class="nav-item"><a href="Coupon.html" class="nav-link">Coupon</a></li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                            <ul class="dropdown-menu" aria-labelledby="menuDropdown">
+                                <li><a class="dropdown-item" href="/edit_profile">Edit Profile</a></li>
+                                <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <br><br><br>
+    <section class="section bg-light pb-0">
+        <div class="container">
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="col-md-8 block-32 mt-5" data-aos="fade-up" data-aos-offset="-200">
+                    <form action="#" class="row g-3" id="searchForm">
+                        <div class="col-md-4">
+                            <label for="cinema" class="font-weight-bold text-black">Select Cinema</label>
+                            <select id="cinema" class="form-control">
+                                <option value="">-- Select Cinema --</option>
+                                <option value="Wicked">Wicked</option>
+                                <option value="Redone">Redone</option>
+                                <option value="Gladiator II">Gladiator II</option>
+                                <option value="Moana2">Moana2</option>
+                                <option value="Myhero">Myhero</option>
+                                <option value="NCT DREAM Mystery Lab">NCT DREAM Mystery Lab</option>
+                                <option value="WAI NOOM 2544">WAI NOOM 2544</option>
+                                <option value="Gladiator II">Gladiator II</option>
+                                <option value="THE COLOR WITHIN">THE COLOR WITHIN</option>
+                                <option value="Venom : The Last Dance">Venom : The Last Dance</option>
+                                <option value="RM">RM RIGHT PERSON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="theatre" class="font-weight-bold text-black">Select Theatre</label>
+                            <select id="theatre" class="form-control">
+                                <option value="">-- Select Theatre --</option>
+                                <option value="Siam paragon">Siam paragon</option>
+                                <option value="Icon siam">Icon siam</option>
+                                <option value="Emquatier">Emquatier</option>
+                                <option value="Sukhumvit">Sukhumvit</option>
+                                <option value="Sukhumvit">Terminal</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="button" class="btn btn-primary btn-md w-100 text-white" id="searchButton">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <br><br><br>
+
+    <div class="time-buttons-container text-center">
+        <h5>Select Showtime</h5>
+        <div class="time-buttons" id="timeButtonsContainer">
+            <!-- Showtime buttons will be dynamically added here -->
+        </div>
+    </div>
+
+    <div class="theater-container">
+        <div class="theater">
+            <div class="screen text-center">
+                <h4>Screen</h4>
+            </div>
+            <div class="seats" id="seatsContainer"></div>
+            <!-- Display Price Section -->
+            <br>
+            <div class="price-container">
+                <div class="price-box">
+                    <span>Total Price:</span>
+                    <span id="totalPrice">0</span> THB
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="receipt-container">
+        <h5>Booking Summary</h5>
+        <div class="movie-info">
+            <p><strong>Select:</strong><span id="movie-title"></span></p>
+            <p><strong>Movie:</strong> <span id="receiptMovie">-</span></p>
+            <p><strong>Time:</strong> <span id="showTime">-</span></p>
+            <p><strong>Location:</strong> <span id="location">-</span></p>
+            <p><strong>Theater:</strong><span id="randomTheater">-</span></p>
+        </div>
+        <div id="seatDetails">
+            <p><strong>Seats:</strong></p>
+            <ul id="selectedSeatsList"></ul>
+            <label for="promoCode" class="font-weight-bold text-black">Enter Promo Code</label>
+            <input type="text" id="promoCode" class="form-control" placeholder="Enter promo code (optional)">
+            <p><strong>Total Price:</strong> <span id="receiptTotalPrice">0</span> THB</p>
+        </div>
+        <button id="purchaseTicket" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#ticketModal">Purchase Ticket</button>
+    </div>
+
+    <!-- Ticket Modal -->
+    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketModalLabel">Ticket Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Movie:</strong> <span id="modalMovie">-</span></p>
+                    <p><strong>Time:</strong> <span id="modalTime">-</span></p>
+                    <p><strong>Location:</strong> <span id="modalLocation">-</span></p>
+                    <p><strong>Theater:</strong> <span id="modalTheater">-</span></p>
+                    <p><strong>Seats:</strong></p>
+                    <ul id="modalSeatList"></ul>
+                    <p><strong>Total Price:</strong> <span id="modalTotalPrice">0</span> THB</p>
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div> -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmTicket">Confirm</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        // ดึงข้อมูลชื่อภาพยนตร์จาก URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieTitle = urlParams.get('movie') || "No Movie selected";
+    
+        // ตั้งค่าชื่อภาพยนตร์ในทั้งสอง span
+        document.getElementById('movie-title').textContent = movieTitle;
+        document.getElementById('receiptMovie').textContent = movieTitle;
+    
+        // ตั้งค่าใน modal ด้วย
+        document.getElementById('modalMovie').textContent = movieTitle;
+    </script>
+    
+
+
+    <script>
+        async function getBookings(movie, location) {
+            try {
+                const response = await fetch(`/booking-history?movie=${movie}&location=${location}`); // Make sure this endpoint returns JSON
+                if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+        document.addEventListener("DOMContentLoaded", async () => {
+            const seatsContainer = document.getElementById("seatsContainer");
+            const confirmButton = document.getElementById("confirmBooking");
+            const totalPriceDisplay = document.getElementById("totalPrice");
+            const selectedSeatsList = document.getElementById("selectedSeatsList");
+            const receiptTotalPrice = document.getElementById("receiptTotalPrice");
+    
+            const frontSeatPrice = 240;
+            const backSeatPrice = 260;
+    
+            // Theater list to randomly choose from (1 to 5)
+            const theaterList = [1, 2, 3, 4, 5];
+            const modalMovie = document.getElementById("modalMovie");
+            const modalTime = document.getElementById("modalTime");
+            const modalLocation = document.getElementById("modalLocation");
+    
+            function renderSeats (myBookings) {
+                seatsContainer.innerHTML = '';
+                for (let i = 0; i < 100; i++) {
+                    const seat = document.createElement("div");
+                    seat.classList.add("seat");
+
+                    const rowNumber = Math.floor(i / 10) + 1;
+                    const seatNumber = (i % 10) + 1;
+                    const isBooked = myBookings.find(booking => booking.Seat == seatNumber && booking.Row == rowNumber);
+
+                    const column = i % 10;
+
+                    if (column === 4 || column === 5 || isBooked) {
+                        seat.classList.add("aisle");
+                        seat.style.backgroundColor = "lightgray";
+                        seat.style.pointerEvents = "none";
+                    } else if (i < 50) {
+                        seat.classList.add("front");
+                        seat.dataset.price = frontSeatPrice;
+                        seat.dataset.row = Math.floor(i / 10) + 1;
+                        seat.dataset.seat = (i % 10) + 1;
+                    } else {
+                        seat.classList.add("back");
+                        seat.dataset.price = backSeatPrice;
+                        seat.dataset.row = Math.floor(i / 10) + 1;
+                        seat.dataset.seat = (i % 10) + 1;
+                    }
+        
+                    if (i % 5 === 0 && !seat.classList.contains("aisle")) {
+                        seat.classList.add("reserved");
+                    } else if (!seat.classList.contains("aisle")) {
+                        seat.classList.add("available");
+                        seat.addEventListener("click", () => toggleSeatSelection(seat));
+                    }
+                    seatsContainer.appendChild(seat);
+                }
+            }
+            function toggleSeatSelection(seat) {
+                seat.classList.toggle("selected");
+                seat.style.backgroundColor = seat.classList.contains("selected") ? "red" : "";
+                updateBookingSummary();
+            }
+    
+            function updateBookingSummary() {
+                const selectedSeats = document.querySelectorAll(".seat.selected");
+                selectedSeatsList.innerHTML = '';
+                let totalPrice = 0;
+    
+                selectedSeats.forEach(seat => {
+                    const row = seat.dataset.row;
+                    const seatNumber = seat.dataset.seat;
+                    totalPrice += parseInt(seat.dataset.price);
+    
+                    const seatItem = document.createElement("li");
+                    seatItem.textContent = `Row: ${row}, Seat: ${seatNumber}`;
+                    selectedSeatsList.appendChild(seatItem);
+                });
+    
+                totalPriceDisplay.textContent = totalPrice;
+                receiptTotalPrice.textContent = totalPrice;
+            }
+    
+            const searchButton = document.getElementById("searchButton");
+            const cinemaSelect = document.getElementById("cinema");
+            const theatreSelect = document.getElementById("theatre");
+            const timeButtonsContainer = document.getElementById("timeButtonsContainer");
+    
+            searchButton.addEventListener("click", async() => {
+                const selectedCinema = cinemaSelect.value;
+                const selectedTheatre = theatreSelect.value;
+    
+                if (selectedCinema && selectedTheatre) {
+                    document.getElementById("receiptMovie").textContent = selectedCinema;
+                    document.getElementById("location").textContent = selectedTheatre;
+    
+                    // Randomly select a theater number (from 1 to 5)
+                    const randomTheater = theaterList[Math.floor(Math.random() * theaterList.length)];
+                    document.getElementById("randomTheater").textContent = randomTheater;
+    
+                    generateShowtimeButtons();
+                    const myBookings = await getBookings(selectedCinema, selectedTheatre);
+                    renderSeats(myBookings)
+                } else {
+                    alert("Please select both cinema and theatre.");
+                }
+            });
+    
+            function generateShowtimeButtons() {
+                const showTimes = ["10:00", "13:00", "16:00", "19:00"];
+                timeButtonsContainer.innerHTML = '';
+    
+                showTimes.forEach(time => {
+                    const button = document.createElement("button");
+                    button.classList.add("time-button");
+                    button.textContent = time;
+                    button.addEventListener("click", () => {
+                        document.querySelectorAll(".time-button").forEach(btn => btn.classList.remove("selected"));
+                        button.classList.add("selected");
+                        document.getElementById("showTime").textContent = time;
+                    });
+                    timeButtonsContainer.appendChild(button);
+                });
+            }
+
+            function getTotalAfterDiscount(price){
+                const promoCodeInput = document.getElementById("promoCode");
+                const value = promoCodeInput.value; // ดึงค่าจาก input
+                fetch(`/get-discount?code=${value}`)
+                .then(response => response.json())
+                .then(data => {
+                    let totalPrice = price
+                    if(data.discount_amount && parseInt(price) > 0){
+                        totalPrice = parseInt(price) - parseInt(data.discount_amount)
+                    }
+
+                    if (data.discount_percentage && parseInt(price) > 0) {
+                        const originalPrice = parseInt(price);
+                        const discountPercentage = parseInt(data.discount_percentage); // สมมติว่าได้ค่ามาเป็นเปอร์เซ็นต์ เช่น 20 แทน 20%
+                        const discountAmount = (originalPrice * discountPercentage) / 100; 
+                        totalPrice = originalPrice - discountAmount;
+                    }
+
+
+                    receiptTotalPrice.textContent = totalPrice;
+                    modalTotalPrice.textContent = totalPrice;
+                    })
+                    .catch(error => {
+                    console.error('Error fetching data:', error);
+                    });
+
+            }
+
+            function getSeatsList () {
+                // Get all <li> elements within the <ul>
+                const listItems = selectedSeatsList.querySelectorAll('li');
+
+                // Convert NodeList to array and map over each <li> to extract the data
+                return Array.from(listItems).map(li => {
+                    const text = li.textContent.trim(); // e.g., "Row: 1, Seat: 7"
+                    
+                    // Split by comma to separate row and seat parts
+                    const [rowPart, seatPart] = text.split(',');
+
+                    // Extract the numeric values after "Row:" and "Seat:"
+                    const row = rowPart.replace('Row:', '').trim();
+                    const seat = seatPart.replace('Seat:', '').trim();
+
+                    return { Row: row, Seat: seat };
+                });
+            }
+    
+            const purchaseButton = document.getElementById("purchaseTicket");
+            purchaseButton.addEventListener("click", async () => {
+                const modalMovie = document.getElementById("modalMovie");
+                const modalTime = document.getElementById("modalTime");
+                const modalLocation = document.getElementById("modalLocation");
+                const modalTheater = document.getElementById("modalTheater");
+                const modalSeatList = document.getElementById("modalSeatList");
+                const modalTotalPrice = document.getElementById("modalTotalPrice");
+    
+               
+                modalMovie.textContent = cinemaSelect.value;
+                modalTime.textContent = document.getElementById("showTime").textContent;
+                modalLocation.textContent = theatreSelect.value;
+    
+                // Get the random theater number and display it in the modal
+                modalTheater.textContent = document.getElementById("randomTheater").textContent;
+    
+                modalSeatList.innerHTML = selectedSeatsList.innerHTML;
+                modalTotalPrice.textContent = receiptTotalPrice.textContent;
+                getTotalAfterDiscount(receiptTotalPrice.textContent)
+                const seatsList = getSeatsList()
+                const movieDetails = {
+                    Movie: cinemaSelect.value,
+                    Time:document.getElementById("showTime").textContent,
+                    Location: theatreSelect.value
+                };
+                const mergedData = seatsList.map(seat => ({
+                    ...seat, 
+                    ...movieDetails 
+                }));
+
+                try {
+                    const response = await fetch('/booking-history', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(mergedData)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+                    window.location.href = '/Home';
+                } catch (error) {
+                    console.error('Error sending data:', error);
+                }
+
+            try {
+                // Send booking details to the backend
+                const response = await fetch('/send-receipt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        movie: modalMovie,
+                        time: modalTime,
+                        location: modalLocation,
+                        theater: modalTheater,
+                        seats: modalSeatList,
+                        totalPrice: modalTotalPrice,
+                    }),
+                });
+
+                if (response.ok) {
+                    alert('Receipt sent successfully!');
+                    // Redirect to the homepage
+                    window.location.href = '/Home';
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error sending receipt:', errorData.message);
+                    alert('Failed to send receipt. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+            });
+
+            document.querySelector(".modal-footer .btn-success").addEventListener("click", () => {
+                alert("Thank you! Your booking is complete.");
+                const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
+                modal.hide();
+                resetBooking();
+            });
+        
+            function resetBooking() {
+                document.querySelectorAll(".seat.selected").forEach(seat => {
+                    seat.classList.remove("selected");
+                    seat.style.backgroundColor = "";
+                });
+                document.getElementById("showTime").textContent = "-";
+                selectedSeatsList.innerHTML = '';
+                totalPriceDisplay.textContent = "0";
+                receiptTotalPrice.textContent = "0";
+                document.getElementById("randomTheater").textContent = "-"; // Reset random theater
+            }
+        });
+
+        document.getElementById("purchaseTicket").addEventListener("click", async () => {
+        await saveBooking(bookingData);
+        // ไปที่หน้าประวัติการจอง
+        window.location.href = "/booking-history.html";
+        });
+
+        document.getElementById("confirmTicket").addEventListener("click", () => {
+        alert("Ticket confirmed!");
+        // สามารถเพิ่มฟังก์ชันบันทึกข้อมูลหรือทำงานเพิ่มเติมได้
+        const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
+        modal.hide();
+        resetBooking(); // รีเซ็ตข้อมูลการจองหลังยืนยัน
+    });
+
+
+    </script>
+    
+    <br>  
+    <footer
+            class="text-center text-lg-start text-white"
+            style="background-color: #1c2331">
+      <!-- Section: Social media -->
+      <section
+               class="d-flex justify-content-between p-4"
+               style="background-color: #2a9bdd">
+        <!-- Left -->
+        <div class="me-5">
+          <span>Get contact with us on social media:</span>
+        </div>
+        <!-- Left -->
+  
+        <!-- Right -->
+        <div>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="" class="text-white me-4">
+            <i class="fab fa-instagram"></i>
+          </a>
+        </div>
+        <!-- Right -->
+      </section>
+      
+      <!-- Section: Social media -->
+      <div class="container p-4 pb-0">
+        <!-- Section: Form -->
+        <section class="">
+          <form action="">
+            <!--Grid row-->
+            <div class="row d-flex justify-content-center">
+              <!--Grid column-->
+              <div class="col-auto">
+                <p class="pt-2">
+                  <strong>Sign up for news</strong>
+                </p>
+              </div>
+              <!--Grid column-->
+    
+              <!--Grid column-->
+              <div class="col-md-5 col-12">
+                <!-- Email input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <input type="email" id="form5Example26" class="form-control" placeholder="email@gmail.com"/>
+                </div>
+              </div>
+              <!--Grid column-->
+    
+              <!--Grid column-->
+              <div class="col-auto">
+                <!-- Submit button -->
+                <button data-mdb-ripple-init type="submit" class="btn btn-primary mb-4">
+                  Subscribe
+                </button>
+              </div>
+              <!--Grid column-->
+            </div>
+            <!--Grid row-->
+          </form>
+        </section>
+        <!-- Section: Form -->
+      </div>
+  
+      <!-- Section: Links  -->
+      <section class="">
+        <div class="container text-center text-md-start mt-5">
+          <!-- Grid row -->
+          <div class="row mt-3">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+              <!-- Content -->
+              <h6 class="text-uppercase fw-bold">Company name</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #5c4dff; height: 2px"
+                  />
+              <p>
+                Here you can use rows and columns to organize your footer
+                content. Lorem ipsum dolor sit amet, consectetur adipisicing
+                elit.
+              </p>
+            </div>
+            <!-- Grid column -->
+  
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold">Need Help?</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                  />
+              <p>
+                <a href="#!" class="text-white">How to buy tickets?</a> 
+              </p>
+              <p>
+                <a href="#!" class="text-white">FAQ</a>
+              </p>
+              <p>
+                <a href="#!" class="text-white">Help center</a>
+              </p>
+            </div>
+  
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+              <!-- Links -->
+              <h6 class="text-uppercase fw-bold">Contact</h6>
+              <hr
+                  class="mb-4 mt-0 d-inline-block mx-auto"
+                  style="width: 60px; background-color: #7c4dff; height: 2px"
+                  />
+              <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+              <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+              <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!-- Grid row -->
+        </div>
+      </section>
+      <!-- Section: Links  -->
+  
+      <!-- Copyright -->
+      <div class="text-center p-1"
+           style="background-color: rgba(0, 0, 0, 0.2)">
+        <p class="text-white"> © 2024 Copyright: Chudawatchari143 | Nitiporn288 | Chanita470</p>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    
+</body>
+</html>

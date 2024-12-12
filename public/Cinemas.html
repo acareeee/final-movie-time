@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/main.css" />
+
+    <style>
+        /* ปรับขนาดปุ่มเลื่อนและตำแหน่งให้อยู่ตรงกลาง */
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.5); /* สีเทาอ่อน */
+            width: 30px; /* ขนาดเล็กลง */
+            height: 30px; /* ขนาดเล็กลง */
+            border-radius: 50%; /* รูปทรงกลม */
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.3); /* สีพื้นหลังของปุ่ม */
+            border-radius: 50%; /* ขอบปุ่มเป็นรูปวงกลม */
+            width: 40px; /* ขนาดปุ่มเลื่อน */
+            height: 40px; /* ขนาดปุ่มเลื่อน */
+            opacity: 0.7; /* ความโปร่งใส */
+            position: absolute; /* ให้ปุ่มเลื่อนอยู่ในตำแหน่งที่กำหนด */
+            top: 50%; /* จัดตำแหน่งแนวตั้งตรงกลาง */
+            transform: translateY(-50%); /* เลื่อนขึ้นเพื่อให้ตรงกลางแนวตั้ง */
+        }
+
+        .carousel-control-prev {
+            left: 10px; /* ปรับให้ปุ่ม prev อยู่ทางซ้าย */
+        }
+        
+
+        .carousel-control-next {
+            right: 10px; /* ปรับให้ปุ่ม next อยู่ทางขวา */
+        }
+
+        .carousel-control-prev:hover, .carousel-control-next:hover {
+            opacity: 1; /* ความโปร่งใสเมื่อโฮเวอร์ */
+        }
+
+        
+        /* ให้ card มีขนาดกว้างเต็มพื้นที่ */
+        .card {
+            width: 300%;
+        }
+
+        /* ให้ carousel มีตำแหน่ง relative เพื่อจัดตำแหน่งปุ่ม */
+        .carousel {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container-fluid position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a href="Home.html" class="nav-link ">Home</a></li>
+                            <li class="nav-item"><a href="Cinemas.html" class="nav-link active">Cinema</a></li>
+                            <li class="nav-item"><a href="Coupon.html" class="nav-link">Coupon</a></li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
+                                <ul class="dropdown-menu" aria-labelledby="menuDropdown">
+                                    <li><a class="dropdown-item" href="/edit_profile">Edit Profile</a></li>
+                                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                                </ul>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+        </div>
+    </header>
+
+
+
+<br><br><br><br>
+
+<h1 class="text-center mb-5 mt-5">สาขา</h1>
+
+
+
+
+<section class="knowmore">
+    <div id="servicesCarousel" class="carousel slide" data-bs-ride="carousel">
+        <h2 style="margin: 33px;">กรุงเทพและปริมณฑล</h2>
+        
+        <div class="carousel-inner mb-5">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/The Emporium.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">The Emporium</h5>
+                                    <p class="card-text">Tel: 1349 <br>5th FL. The Emporium<br>09:00 - 23:00 everyday<br><br> </p>
+                                     </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Emporium/@13.730063,100.5662676,17z/data=!3m2!4b1!5s0x30e29f03d50eb4bd:0xdb78b1e537cf125!4m6!3m5!1s0x30e29f03c27ef185:0xf0100b33d0c04c0!8m2!3d13.730063!4d100.5688425!16zL20vMGIxNzJr?authuser=0&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central World.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central World</h5>
+                                    <p class="card-text">Tel: 1349 <br>7th FL. CentralWorld<br>Mon - Thu 10:30 - 21:30 <br> Fri - Sun 10:00 - 22:00</p>
+                                  
+                                    </div>
+                               
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/SF+World+Cinema+Central+World/@13.7471896,100.5365983,17z/data=!3m2!4b1!5s0x30e29ecfc46acedb:0xdb78b1e36f28ac4!4m6!3m5!1s0x30e29ecfe93daaed:0x1bc430d9383cd9dc!8m2!3d13.7471896!4d100.5391732!16s%2Fg%2F11f4m1z838?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Grand Rama IX.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Grand Rama IX</h5>
+                                    <p class="card-text">Tel: 1349 <br>7th FL. Central Grand Rama IX<br>09:00 - 22:00 everyday<br><br> </p>
+                                   </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Rama+9/@13.7585051,100.5634491,17z/data=!3m2!4b1!5s0x30e29e8cfe29ba41:0x60c9ffac9c95750!4m6!3m5!1s0x30e29e8d1d1880b7:0x215cdc7915c9483f!8m2!3d13.7585051!4d100.566024!16s%2Fm%2F0jwvfb5?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Ladprao.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Ladprao</h5>
+                                    <p class="card-text">Tel: 1349 <br>6th FL. Central Ladprao<br>Mon - Fri 11:00 - 21:30 <br> sat - sun 10:00 - 21:30</p>
+                                   </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Ladprao/@13.8171677,100.5567108,17z/data=!3m2!4b1!5s0x30e29c5a5557dd0b:0x486cece46bb43070!4m6!3m5!1s0x30e29c5a53d05aab:0x313d533c3d15a124!8m2!3d13.8171677!4d100.5615817!16zL20vMGcwanFu?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Ramindra.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Ramindra</h5>
+                                    <p class="card-text">Tel: 1349 <br>4th FL. Central Ramintra<br>09:00 - 23:00 everyday<br><br></p>
+                                   
+                                   </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Ramindra/@13.8719433,100.5991,17z/data=!3m2!4b1!5s0x30e282b46ff75893:0x486cece4bf06ccd0!4m6!3m5!1s0x30e282b4882a4d31:0x46592ae928144796!8m2!3d13.8719433!4d100.6016749!16s%2Fm%2F047cr5j?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Terminal 21 Asok.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Terminal 21 Asok</h5>
+                                    <p class="card-text">Tel: 1349 <br>6th FL. Hollywood Terminal 21 Asok<br>Mon - Fri 11:00 - 21:30 <br> sat - sun 10:00 - 21:30</p>
+                                   
+                                  </div>
+                               
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Terminal+21+Asok/@13.7379452,100.5578865,17z/data=!3m1!4b1!4m6!3m5!1s0x30e29f1e6e996bb9:0x3383716c9b049379!8m2!3d13.7379452!4d100.5604614!16s%2Fg%2F11h7ps3x1v?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/The Mall Lifestore Tha Phra.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">The Mall Lifestore Tha Phra</h5>
+                                    <p class="card-text">Tel: 1349 <br>4th FL. The Mall Thapra<br>Mon - Fri 11:00 - 21:30 <br> sat - sun 10:00 - 21:30</p>
+                                   
+                                 </div>
+                                
+                                <div class="card-body">
+                                    <a href="#" class="card-link">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Cosmo Bazaar Muang Thong Thani.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Cosmo Bazaar Muang Thong Thani</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Cosmo Bazaar 2<br>09:00 - 23:00 everyday<br><br></p>
+                                    </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/SF+Cinema+Cosmo+Bazaar+Muang+Thong+Thani/@13.9128475,100.5499843,17z/data=!3m1!4b1!4m6!3m5!1s0x30e283bb22d6265b:0x6b0ea90b1ae2acb1!8m2!3d13.9128475!4d100.5525592!16s%2Fg%2F11h0z9fwyb?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px; ">
+                                <img src="./images/The Mall Bangkae.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">The Mall Bangkae</h5>
+                                    <p class="card-text">Tel: 1349 <br>3th FL. The Mall Bangkae<br>10:00 - 22:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/ไอที+ซิตี้+สาขา+เดอะมอล์+บางแค+ชั้น+3/@13.7133431,100.4068654,16.46z/data=!4m6!3m5!1s0x30e297c64c129af3:0x38dc22c26b4ad92a!8m2!3d13.7141664!4d100.4083449!16s%2Fg%2F1pzy7hl8f?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    
+    <div id="secondCarousel" class="carousel slide" data-bs-ride="carousel">
+        <h2 style="margin: 33px;">ภาคกลาง</h2>
+        <div class="carousel-inner mb-5">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Ayutthaya.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Ayutthaya</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Central Ayutthaya <br>10:00 - 22:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Emporium/@13.730063,100.5662676,17z/data=!3m2!4b1!5s0x30e29f03d50eb4bd:0xdb78b1e537cf125!4m6!3m5!1s0x30e29f03c27ef185:0xf0100b33d0c04c0!8m2!3d13.730063!4d100.5688425!16zL20vMGIxNzJr?authuser=0&entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Nakhon Sawan.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Nakhon Sawan</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Central Nakhon Sawan<br>09:00 - 23:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Nakhon+Sawan/@15.7027268,100.114744,17z/data=!3m1!4b1!4m6!3m5!1s0x30e04f6c640a4553:0xae556b181f90cd63!8m2!3d15.7027268!4d100.1173189!16s%2Fg%2F11kjp4ldx9?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Mahachai.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Plaza Mahachai</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Central Plaza Mahachai <br>Mon - Fri. 10:30 - 21:00 <br> Sat - Sun  10:00 - 21:00</p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Mahachai/@13.5724147,100.2865113,16.81z/data=!4m6!3m5!1s0x30e2b8f1e844b797:0xdff7b56c8352aa5e!8m2!3d13.5725521!4d100.2891281!16s%2Fg%2F11c1nkkwfz?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Kanchanaburi.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Kanchanaburi</h5>
+                                    <p class="card-text">Tel: 1349 <br> 2nd FL. Robinson Kanchanaburi <br>09:30 - 22:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Robinson+Lifestyle+Kanchanaburi/@14.022966,99.5503985,16.93z/data=!4m6!3m5!1s0x30e30b48f419c8a3:0xd18b033a20ac98a7!8m2!3d14.0230887!4d99.5530456!16s%2Fg%2F11clt8wt0m?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Lifestyle Ratchaburi.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Ratchaburi</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Robinson Ratchaburi <br>10:00 - 22:00 everyday<br><br></p>
+                                </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Robinson+Lifestyle+Ratchaburi/@13.5341871,99.8091913,17z/data=!3m1!4b1!4m6!3m5!1s0x30e32f556ef65e11:0xe3a4f991e7011fc5!8m2!3d13.5341871!4d99.8117662!16s%2Fg%2F1tx8qnct?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Lifestyle Lopburi.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Lopburi</h5>
+                                    <p class="card-text">Tel: 1349 <br>2th FL. Robinson Lopburi <br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Robinson+Lifestyle+Lopburi/@14.7752199,100.6901588,17z/data=!3m1!4b1!4m6!3m5!1s0x311dfe1bc37a7103:0xd7f38bbb7edbdac9!8m2!3d14.7752199!4d100.6927337!16s%2Fg%2F11c542_ljg?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#secondCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#secondCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+    </div>
+
+    <div id="thirdCarousel" class="carousel slide" data-bs-ride="carousel">
+
+        <h2 style="margin: 33px;">ภาคเหนือ</h2>
+        <div class="carousel-inner mb-5">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/MAYA Lifestyle Shopping Center.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">MAYA Chiangmai</h5>
+                                    <p class="card-text">Tel: 1349 <br>5th FL. MAYA Shopping Center <br>Mon - Fri. 10:30 - 21:00 <br> Sat - Sun  10:00 - 22:00</p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/MAYA+Lifestyle+Shopping+Center+Chiangmai/@18.8021975,98.9646562,16.97z/data=!4m6!3m5!1s0x30da3a61c9365a0b:0x248e54e7878f327e!8m2!3d18.8022464!4d98.9672631!16s%2Fg%2F1yprv63cp?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Plaza Lampang.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Plaza Lampang</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Central Plaza Lampang<br>10:30 - 19:30 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/@18.8021975,98.9646562,16.97z?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Maesot.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Maesot</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Robinson Maesot <br>10:00 - 24:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/@18.8021975,98.9646562,16.97z?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Tops Plaza Phayao.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tops Plaza Phayao</h5>
+                                    <p class="card-text">Tel: 1349 <br> G FL. Tops Plaza Phayao<br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/@18.8021975,98.9646562,16.97z?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#thirdCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#thirdCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+    </div>
+
+    <div id="fifthCarousel" class="carousel slide" data-bs-ride="carousel">
+        <h2 style="margin: 33px;">ภาคตะวันออก</h2>
+        <div class="carousel-inner mb-5">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Pattaya.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Pattaya</h5>
+                                    <p class="card-text">Tel: 1349 <br>6th FL. Central Pattaya Beach <br>10:00 - 22:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/search/เซ็นทรัล+พัทยา/@12.9348037,100.8807713,17z?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Terminal 21 Pattaya.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Terminal 21 Pattaya</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Terminal 21 Pattaya<br>09:00 - 23:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Terminal+21+Pattaya/@12.9502055,100.8861036,17z/data=!3m1!4b1!4m6!3m5!1s0x3102bdfe74ed1bbd:0xa7affe9a9b93b608!8m2!3d12.9502055!4d100.8886785!16s%2Fg%2F11f3dcd796?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Lifestyle Ban Chang.JPEG" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Lifestyle Ban Chang</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Robinson Ban Chang <br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Robinson+Lifestyle+Ban+Chang/@12.7394913,101.0780084,17z/data=!3m1!4b1!4m6!3m5!1s0x3102f14de85984bd:0x13f81d029f3cb210!8m2!3d12.7394913!4d101.0805833!16s%2Fg%2F11lfzz0g1j?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Laemtong Bangsaen.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Laemtong Bangsaen</h5>
+                                    <p class="card-text">Tel: 1349 <br> 4th FL. Laemtong Bangsaen <br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Laemtong+Bangsaen/@13.2865749,100.9241954,17z/data=!3m1!4b1!4m6!3m5!1s0x3102b4dcfd674935:0xf1e5b7209cac21af!8m2!3d13.2865749!4d100.9267703!16s%2Fg%2F1tl1fb4m?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/ Harbor Mall Laemchabang.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Harbor Mall Laemchabang</h5>
+                                    <p class="card-text">Tel: 1349 <br>4th FL. Harbor Mall Laemchabang <br>Mon - Fri. 10:30 - 21:00 <br>Sat - Sun 10:00 - 21:00</p>
+                                </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Harbor+Laemchabang/@13.0791311,100.9177449,17z/data=!3m1!4b1!4m6!3m5!1s0x3102b909dad30d4d:0x2da68f13e2252ae3!8m2!3d13.0791311!4d100.9203198!16s%2Fg%2F11gz_10j4?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Passione Rayong.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Passione Rayong</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Passione Rayong <br>10:30 - 22:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/search/Passione+Rayong/@12.6839278,101.2467492,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#fifthCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#fifthCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+    </div>
+
+   <div id="sixthCarousel" class="carousel slide" data-bs-ride="carousel"> 
+        <h2 style="margin: 33px;">ภาคใต้</h2>
+        <div class="carousel-inner mb-5">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Jungceylon Phuket.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Jungceylon Phuket</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Jungceylon Phuket <br>11:00 - 22:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/@12.6839278,101.2467492,17z?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/ Central Phuket.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Central Phuket</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Central Phuket<br>10:30 - 23:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/search/+++%EE%90%93+7,895+photos+Central+Phuket+Festival/@7.8918237,98.3647,17z/data=!3m1!4b1?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Robinson Thalang.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Robinson Thalang</h5>
+                                    <p class="card-text">Tel: 1349 <br>2nd FL. Robinson Thalang <br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Robinson+Lifestyle+Thalang/@7.980722,98.3597086,17z/data=!3m1!4b1!4m6!3m5!1s0x3050376f72e1118f:0xe94c146ccdb26da3!8m2!3d7.980722!4d98.3622835!16s%2Fg%2F11p0wf35lj?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="container text-center mt-5">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Lotus Yala.jpeg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Lotus Yala</h5>
+                                    <p class="card-text">Tel: 1349 <br> 2nd FL. Lotus Yala <br>10:00 - 21:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/SF+Cinema+Lotus’s+ยะลา/@6.5528726,101.2682256,16.93z/data=!4m6!3m5!1s0x31b3750044f6f99b:0xa69fb8c3b5984ca3!8m2!3d6.5528959!4d101.2709253!16s%2Fg%2F11wj5_xxvx?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Plaza Nakhon Ratchasima.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"> Central Plaza Nakhon Si Thammarat</h5>
+                                    <p class="card-text">Tel: 1349 <br>3rd FL. Central Plaza Nakhon Si Thammarat <br>Mon - Fri. 10:30 - 21:00 <br>Sat - Sun 10:00 - 21:00</p>
+                                </div>
+                            
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Nakhon+Si+Thammarat/@8.3822764,99.9670087,17z/data=!3m1!4b1!4m6!3m5!1s0x3053019512521ec1:0xb3734f29d08a9d5e!8m2!3d8.3822764!4d99.9695836!16s%2Fg%2F11b60sjz1k?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 400px;">
+                                <img src="./images/Central Plaza Suratthani.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Central Plaza Suratthani</h5>
+                                    <p class="card-text">Tel: 1349 <br>4th FL. Central Plaza Suratthani <br>10:30 - 22:00 everyday<br><br></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="https://www.google.com/maps/place/Central+Nakhon+Si+Thammarat/@8.3822764,99.9670087,17z/data=!3m1!4b1!4m6!3m5!1s0x3053019512521ec1:0xb3734f29d08a9d5e!8m2!3d8.3822764!4d99.9695836!16s%2Fg%2F11b60sjz1k?entry=ttu&g_ep=EgoyMDI0MTEyNC4xIKXMDSoASAFQAw%3D%3D" class="card-link" target="_blank">map</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#sixthCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#sixthCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+    </div>
+</section>
+
+<footer
+class="text-center text-lg-start text-white"
+style="background-color: #1c2331">
+<!-- Section: Social media -->
+<section
+  class="d-flex justify-content-between p-4"
+  style="background-color: #2a9bdd">
+<!-- Left -->
+<div class="me-5">
+<span>Get contact with us on social media:</span>
+</div>
+<!-- Left -->
+
+<!-- Right -->
+<div>
+<a href="" class="text-white me-4">
+<i class="fab fa-facebook"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="fab fa-twitter"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="fab fa-google"></i>
+</a>
+<a href="" class="text-white me-4">
+<i class="fab fa-instagram"></i>
+</a>
+</div>
+<!-- Right -->
+</section>
+
+<!-- Section: Social media -->
+<div class="container p-4 pb-0">
+<!-- Section: Form -->
+<section class="">
+<form action="">
+<!--Grid row-->
+<div class="row d-flex justify-content-center">
+  <!--Grid column-->
+  <div class="col-auto">
+    <p class="pt-2">
+      <strong>Sign up for news</strong>
+    </p>
+  </div>
+  <!--Grid column-->
+
+  <!--Grid column-->
+  <div class="col-md-5 col-12">
+    <!-- Email input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="email" id="form5Example26" class="form-control" placeholder="email@gmail.com"/>
+    </div>
+  </div>
+  <!--Grid column-->
+
+  <!--Grid column-->
+  <div class="col-auto">
+    <!-- Submit button -->
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary mb-4">
+      Subscribe
+    </button>
+  </div>
+  <!--Grid column-->
+</div>
+<!--Grid row-->
+</form>
+</section>
+<!-- Section: Form -->
+</div>
+
+<!-- Section: Links  -->
+<section class="">
+<div class="container text-center text-md-start mt-5">
+<!-- Grid row -->
+<div class="row mt-3">
+<!-- Grid column -->
+<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+  <!-- Content -->
+  <h6 class="text-uppercase fw-bold">Company name</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #5c4dff; height: 2px"
+      />
+  <p>
+    Here you can use rows and columns to organize your footer
+    content. Lorem ipsum dolor sit amet, consectetur adipisicing
+    elit.
+  </p>
+</div>
+<!-- Grid column -->
+
+<!-- Grid column -->
+<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+  <!-- Links -->
+  <h6 class="text-uppercase fw-bold">Need Help?</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p>
+    <a href="#!" class="text-white">How to buy tickets?</a> 
+  </p>
+  <p>
+    <a href="#!" class="text-white">FAQ</a>
+  </p>
+  <p>
+    <a href="#!" class="text-white">Help center</a>
+  </p>
+</div>
+
+<!-- Grid column -->
+<div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+  <!-- Links -->
+  <h6 class="text-uppercase fw-bold">Contact</h6>
+  <hr
+      class="mb-4 mt-0 d-inline-block mx-auto"
+      style="width: 60px; background-color: #7c4dff; height: 2px"
+      />
+  <p><i class="fas fa-home mr-3"></i> New York, NY 10012, US</p>
+  <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
+  <p><i class="fas fa-phone mr-3"></i> + 01 234 567 88</p>
+</div>
+<!-- Grid column -->
+</div>
+<!-- Grid row -->
+</div>
+</section>
+<!-- Section: Links  -->
+
+<!-- Copyright -->
+<div class="text-center p-1"
+style="background-color: rgba(0, 0, 0, 0.2)">
+<p class="text-white"> © 2024 Copyright: Chudawatchari143 | Nitiporn288 | Chanita470</p>
+</div>
+<!-- Copyright -->
+</footer>
+    </body>
+</html>
