@@ -23,8 +23,10 @@
         }
         body {
             min-height: 100vh;
-            background: linear-gradient(#fae6e1, #f3dfd8);
+            background: rgb(244, 243, 243);
             font-family: "Lato", sans-serif;
+            color: #000000;
+            transition: background-color 0.3s, color 0.3s;
         }
         .theater-container {
             display: flex;
@@ -126,7 +128,6 @@
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 5px;
-            border: 1px solid #ccc;
             background-color: #2c2f62;
             color: white;
             cursor: pointer;
@@ -147,11 +148,75 @@
                 padding: 8px 15px;
             }
         }
+
+        /* โหมดกลางคืน */
+        body.dark-mode {
+            background-color: #4b4b4b;
+            color: black;
+        }
+
+            .switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            background: #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch.dark {
+            background: #444;
+        }
+
+        .switch span {
+            margin: 0 5px;
+            font-size: 14px;
+        }
+
+        /* Select Dropdown Styles */
+select {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    font-family: "Lato", sans-serif;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #2dcff8, #5a2d6e); /* Gradient effect */
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, box-shadow 0.3s;
+    appearance: none; /* Hide default dropdown arrow */
+    cursor: pointer;
+}
+
+/* Hover Effect for Select */
+select:hover {
+    background: linear-gradient(135deg, #fd6d8e, #5a2d6e);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Focus Effect */
+select:focus {
+    outline: none;
+    box-shadow: 0 0 10px #fd6d8e;
+    background: linear-gradient(135deg, #f95c2a, #5a2d6e);
+}
+
+/* Customize dropdown options */
+select option {
+    color: #000; /* Black text for readability */
+    font-size: 14px;
+}
+
         
-    </style>
+  </style>
 </head>
 <body>
-    <header>
+  <header>
+    <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -159,7 +224,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a href="Home.html" class="nav-link ">Home</a></li>
+                        <li class="nav-item"><a href="Home.html" class="nav-link active">Home</a></li>
+                        <li class="nav-item"><a href="Cinemas.html" class="nav-link">Cinema</a></li>
                         <li class="nav-item"><a href="Coupon.html" class="nav-link">Coupon</a></li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" id="menuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile</a>
@@ -168,23 +234,54 @@
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
-                        
                     </ul>
+                </div>
+                <div class="switch" id="themeToggle">
+                  <span>🌞</span>
+                  <span>🌜</span>
                 </div>
             </div>
         </nav>
-    </header>
+    </div>
+</header>
+
+<script>
+  // เลือกองค์ประกอบ
+const toggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// ตรวจสอบ LocalStorage สำหรับสถานะโหมด
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    body.classList.add('dark-mode');
+    toggle.classList.add('dark');
+}
+
+// สลับโหมด
+toggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    toggle.classList.toggle('dark');
+
+    // บันทึกสถานะโหมดใน LocalStorage
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+</script>
 
     <br><br><br>
-    <section class="section bg-light pb-0">
-        <div class="container">
+    <section class="section pb-0">
+        <div class="dropdown-container">
             <div class="d-flex justify-content-center align-items-center">
                 <div class="col-md-8 block-32 mt-5" data-aos="fade-up" data-aos-offset="-200">
                     <form action="#" class="row g-3" id="searchForm">
                         <div class="col-md-4">
                             <label for="cinema" class="font-weight-bold text-black">Select Cinema</label>
                             <select id="cinema" class="form-control">
-                                <option value="">-- Select Cinema --</option>
+                                <option value="">-- Select Movie --</option>
                                 <option value="Wicked">Wicked</option>
                                 <option value="Redone">Redone</option>
                                 <option value="Gladiator II">Gladiator II</option>
@@ -468,8 +565,6 @@
 
             }
 
-            
-
             function getSeatsList () {
                 // Get all <li> elements within the <ul>
                 const listItems = selectedSeatsList.querySelectorAll('li');
@@ -489,91 +584,85 @@
                 });
             }
     
-            document.getElementById("purchaseTicket").addEventListener("click", async () => {
-    const movie = document.getElementById("receiptMovie").textContent.trim();
-    const time = document.getElementById("showTime").textContent.trim();
-    const location = document.getElementById("location").textContent.trim();
-    const theater = document.getElementById("randomTheater").textContent.trim();
+            const purchaseButton = document.getElementById("purchaseTicket");
+            purchaseButton.addEventListener("click", async () => {
+                const modalMovie = document.getElementById("modalMovie");
+                const modalTime = document.getElementById("modalTime");
+                const modalLocation = document.getElementById("modalLocation");
+                const modalTheater = document.getElementById("modalTheater");
+                const modalSeatList = document.getElementById("modalSeatList");
+                const modalTotalPrice = document.getElementById("modalTotalPrice");
+    
+               
+                modalMovie.textContent = cinemaSelect.value;
+                modalTime.textContent = document.getElementById("showTime").textContent;
+                modalLocation.textContent = theatreSelect.value;
+    
+                // Get the random theater number and display it in the modal
+                modalTheater.textContent = document.getElementById("randomTheater").textContent;
+    
+                modalSeatList.innerHTML = selectedSeatsList.innerHTML;
+                modalTotalPrice.textContent = receiptTotalPrice.textContent;
+                getTotalAfterDiscount(receiptTotalPrice.textContent)
+                const seatsList = getSeatsList()
+                const movieDetails = {
+                    Movie: cinemaSelect.value,
+                    Time:document.getElementById("showTime").textContent,
+                    Location: theatreSelect.value
+                };
+                const mergedData = seatsList.map(seat => ({
+                    ...seat, 
+                    ...movieDetails 
+                }));
 
-    // Get the selected seats (Assuming they are displayed as <li> elements under #selectedSeatsList)
-    const seatList = Array.from(document.getElementById("selectedSeatsList").getElementsByTagName("li"))
-        .map(seat => seat.textContent.trim());  // This assumes the seats are listed as <li> elements
+                try {
+                    const response = await fetch('/booking-history', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(mergedData)
+                    });
 
-    const totalPrice = parseFloat(document.getElementById("receiptTotalPrice").textContent.trim());
+                    if (!response.ok) {
+                        throw new Error(`Server error: ${response.status}`);
+                    }
+                    window.location.href = '/Home';
+                } catch (error) {
+                    console.error('Error sending data:', error);
+                }
 
-    // Check if all fields are filled
-    if (!movie || !time || !location || !theater || seatList.length === 0 || !totalPrice) {
-        alert('Please complete all required fields.');
-        return;
-    }
+            try {
+                // Send booking details to the backend
+                const response = await fetch('/send-receipt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        movie: modalMovie,
+                        time: modalTime,
+                        location: modalLocation,
+                        theater: modalTheater,
+                        seats: modalSeatList,
+                        totalPrice: modalTotalPrice,
+                    }),
+                });
 
-    // Apply discount using getTotalAfterDiscount function
-    const discountedPrice = getTotalAfterDiscount(totalPrice);  // Apply discount to the total price
-
-    // Populate the modal with the ticket details
-    document.getElementById("modalMovie").textContent = movie;
-    document.getElementById("modalTime").textContent = time;
-    document.getElementById("modalLocation").textContent = location;
-    document.getElementById("modalTheater").textContent = theater;
-
-    const modalSeatList = document.getElementById("modalSeatList");
-    modalSeatList.innerHTML = ''; // Clear previous seat data
-    seatList.forEach(seat => {
-        const li = document.createElement("li");
-        li.textContent = seat;
-        modalSeatList.appendChild(li);
-    });
-
-    // Set the discounted price in the modal
-    document.getElementById("modalTotalPrice").textContent = discountedPrice.toFixed(2);  // Show two decimal places
-
-    // Show the modal
-    const modal = new bootstrap.Modal(document.getElementById("ticketModal"));
-    modal.show();
-
-    // Send data to the backend after confirming
-    document.getElementById("confirmTicket").addEventListener("click", async () => {
-        try {
-            const response = await fetch('/send-receipt', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    movie,
-                    time,
-                    location,
-                    theater,
-                    seats: seatList,  // Send seats as an array
-                    totalPrice: discountedPrice,  // Send the discounted price
-                }),
-            });
-
-            if (response.ok) {
-                alert('Receipt sent successfully!');
-                // Redirect to the home page after sending receipt
-                window.location.href = '/Home'; // Redirect to home page
-            } else {
-                const errorData = await response.json();
-                console.error('Error sending receipt:', errorData.message);
-                alert('Failed to send receipt. Please try again.');
+                if (response.ok) {
+                    alert('Receipt sent successfully!');
+                    // Redirect to the homepage
+                    window.location.href = '/Home';
+                } else {
+                    const errorData = await response.json();
+                    console.error('Error sending receipt:', errorData.message);
+                    alert('Failed to send receipt. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        }
-
-        // Close the modal after confirming
-        modal.hide();
-    });
-});
-
-// Assuming getTotalAfterDiscount is a function that applies a discount and returns the new total price
-function getTotalAfterDiscount(originalPrice) {
-    const discount = 0.1;  // For example, a 10% discount
-    return originalPrice - (originalPrice * discount);  // Calculate the discounted price
-}
-
+            });
 
             document.querySelector(".modal-footer .btn-success").addEventListener("click", () => {
                 alert("Thank you! Your booking is complete.");
@@ -595,19 +684,19 @@ function getTotalAfterDiscount(originalPrice) {
             }
         });
 
-    //     document.getElementById("purchaseTicket").addEventListener("click", async () => {
-    //     await saveBooking(bookingData);
-    //     // ไปที่หน้าประวัติการจอง
-    //     window.location.href = "/booking-history.html";
-    //     });
+        document.getElementById("purchaseTicket").addEventListener("click", async () => {
+        await saveBooking(bookingData);
+        // ไปที่หน้าประวัติการจอง
+        window.location.href = "/booking-history.html";
+        });
 
-    //     document.getElementById("confirmTicket").addEventListener("click", () => {
-    //     alert("Ticket confirmed!");
-    //     // สามารถเพิ่มฟังก์ชันบันทึกข้อมูลหรือทำงานเพิ่มเติมได้
-    //     const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
-    //     modal.hide();
-    //     resetBooking(); // รีเซ็ตข้อมูลการจองหลังยืนยัน
-    // });
+        document.getElementById("confirmTicket").addEventListener("click", () => {
+        alert("Ticket confirmed!");
+        // สามารถเพิ่มฟังก์ชันบันทึกข้อมูลหรือทำงานเพิ่มเติมได้
+        const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
+        modal.hide();
+        resetBooking(); // รีเซ็ตข้อมูลการจองหลังยืนยัน
+    });
 
 
     </script>

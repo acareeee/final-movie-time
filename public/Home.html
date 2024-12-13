@@ -166,12 +166,49 @@
 
         .filter-buttons .filter-btn {
             cursor: pointer;
+            color: #8ebef3;
+            border-color: #8ebef3;
+            
         }
 
         .filter-buttons .filter-btn.active {
             background-color: #007bff;
             color: white;
             border-color: #0056b3;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* โหมดกลางคืน */
+        body.dark-mode {
+          background-color: #4b4b4b;
+          color: #ffffff;
+        }
+
+            .switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            background: #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .switch.dark {
+            background: #444;
+        }
+
+        .switch span {
+            margin: 0 5px;
+            font-size: 14px;
         }
 
   </style>
@@ -196,13 +233,43 @@
                                 <li><a class="dropdown-item" href="/logout">Logout</a></li>
                             </ul>
                         </li>
-                        
                     </ul>
+                </div>
+                <div class="switch" id="themeToggle">
+                  <span>🌞</span>
+                  <span>🌜</span>
                 </div>
             </div>
         </nav>
     </div>
 </header>
+
+<script>
+  // เลือกองค์ประกอบ
+const toggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// ตรวจสอบ LocalStorage สำหรับสถานะโหมด
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme === 'dark') {
+    body.classList.add('dark-mode');
+    toggle.classList.add('dark');
+}
+
+// สลับโหมด
+toggle.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+    toggle.classList.toggle('dark');
+
+    // บันทึกสถานะโหมดใน LocalStorage
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+</script>
 
 
 <br><br>
