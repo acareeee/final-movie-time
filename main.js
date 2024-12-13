@@ -65,7 +65,7 @@ passport.use(new GoogleStrategy({
             user = await prisma.register.create({
                 data: {
                     Name: profile.displayName,
-                    Surname: "",
+                    Surname:profile.name.familyName, 
                     Email: profile.emails[0].value,
                     Username: profile.id,
                     Password: null,
@@ -134,9 +134,10 @@ app.get('/Home', (req, res) => {
 // Register route
 const zxcvbn = require('zxcvbn');
 
+
 app.post('/Register', [
     check('Name').notEmpty().withMessage('Name is required'),
-    check('Surname').notEmpty().withMessage('Surname is required'),
+    check('Surname').notEmpty().withMessage('Surname is required'),  // Ensure Surname is required
     check('Email').isEmail().withMessage('Invalid email address'),
     check('Phone')
         .isLength({ min: 10, max: 10 }).withMessage('Phone number must be exactly 10 digits')
@@ -183,7 +184,7 @@ app.post('/Register', [
         await prisma.register.create({
             data: {
                 Name: Name,
-                Surname: Surname,
+                Surname: Surname,  // Use the default value for Surname if not provided
                 Sex: Sex || "Unknown",
                 Birthdate: Birthdate ? new Date(Birthdate) : null,
                 Email: Email,
@@ -199,6 +200,7 @@ app.post('/Register', [
         res.status(500).json({ message: 'An error occurred while registering the user.' });
     }
 });
+
 
 
 // Login route

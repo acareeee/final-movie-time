@@ -136,19 +136,19 @@
         const strengthMessage = document.getElementById('strength-message');
         const suggestionsList = document.getElementById('suggestions');
         const registerForm = document.getElementById('register-form');
-
+    
         passwordInput.addEventListener('input', () => {
             const password = passwordInput.value;
             const result = zxcvbn(password);
-
+    
             // Update strength message
             const strengthLevels = ['Very Weak', 'Weak', 'Fair', 'Good', 'Strong'];
             strengthMessage.textContent = `Strength: ${strengthLevels[result.score]}`;
-
+    
             // Change color based on strength
             const colors = ['red', 'orange', 'yellow', 'blue', 'green'];
             strengthMessage.style.color = colors[result.score];
-
+    
             // Update suggestions
             suggestionsList.innerHTML = '';
             if (result.feedback.suggestions.length > 0) {
@@ -159,29 +159,59 @@
                 });
             }
         });
-
-        registerForm.addEventListener('submit', (event) => {
+    
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();  // Prevent the default form submission to handle it via JavaScript
+    
             const password = passwordInput.value;
             const recheckPassword = recheckPasswordInput.value;
-
+    
             // Check password requirements manually
             const hasUpperCase = /[A-Z]/.test(password);
             const hasDigit = /[0-9]/.test(password);
             const hasSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
+    
             if (!hasUpperCase || !hasDigit || !hasSymbol) {
-                event.preventDefault();
                 alert('Password must include at least one uppercase letter, one digit, and one special character.');
                 return;
             }
-
+    
             // Check if passwords match
             if (password !== recheckPassword) {
-                event.preventDefault();
                 alert('Passwords do not match.');
                 return;
             }
+    
+            // Gather the form data
+            const formData = new FormData(registerForm);
+            const data = Object.fromEntries(formData.entries());
+    
+            try {
+                // Send the registration data to the server via POST request
+                const response = await fetch('/Register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+    
+                const result = await response.json();
+    
+                // If registration is successful, redirect to the login page
+                if (response.status === 201) {
+                    alert('Registration successful!');
+                    window.location.href = '/login';  // Redirect to the login page
+                } else {
+                    // Handle any errors (validation or server issues)
+                    alert(result.message || 'An error occurred');
+                }
+    
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
         });
-    </script>
+    </script>    
 </body>
 </html>
