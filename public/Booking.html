@@ -468,6 +468,8 @@
 
             }
 
+            
+
             function getSeatsList () {
                 // Get all <li> elements within the <ul>
                 const listItems = selectedSeatsList.querySelectorAll('li');
@@ -487,85 +489,51 @@
                 });
             }
     
-            const purchaseButton = document.getElementById("purchaseTicket");
-            purchaseButton.addEventListener("click", async () => {
-                const modalMovie = document.getElementById("modalMovie");
-                const modalTime = document.getElementById("modalTime");
-                const modalLocation = document.getElementById("modalLocation");
-                const modalTheater = document.getElementById("modalTheater");
-                const modalSeatList = document.getElementById("modalSeatList");
-                const modalTotalPrice = document.getElementById("modalTotalPrice");
-    
-               
-                modalMovie.textContent = cinemaSelect.value;
-                modalTime.textContent = document.getElementById("showTime").textContent;
-                modalLocation.textContent = theatreSelect.value;
-    
-                // Get the random theater number and display it in the modal
-                modalTheater.textContent = document.getElementById("randomTheater").textContent;
-    
-                modalSeatList.innerHTML = selectedSeatsList.innerHTML;
-                modalTotalPrice.textContent = receiptTotalPrice.textContent;
-                getTotalAfterDiscount(receiptTotalPrice.textContent)
-                const seatsList = getSeatsList()
-                const movieDetails = {
-                    Movie: cinemaSelect.value,
-                    Time:document.getElementById("showTime").textContent,
-                    Location: theatreSelect.value
-                };
-                const mergedData = seatsList.map(seat => ({
-                    ...seat, 
-                    ...movieDetails 
-                }));
+            document.getElementById("purchaseTicket").addEventListener("click", async () => {
+    // Extracting data from the receipt container
+    const movie = document.getElementById("receiptMovie").textContent;
+    const time = document.getElementById("showTime").textContent;
+    const location = document.getElementById("location").textContent;
+    const theater = document.getElementById("randomTheater").textContent;
 
-                try {
-                    const response = await fetch('/booking-history', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(mergedData)
-                    });
+    // Get the selected seats (Assuming they are displayed as <li> elements under #selectedSeatsList)
+    const seatList = Array.from(document.getElementById("selectedSeatsList").getElementsByTagName("li"))
+        .map(seat => seat.textContent);  // This assumes the seats are listed as <li> elements
 
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
-                    }
-                    window.location.href = '/Home';
-                } catch (error) {
-                    console.error('Error sending data:', error);
-                }
+    const totalPrice = document.getElementById("receiptTotalPrice").textContent;
 
-            try {
-                // Send booking details to the backend
-                const response = await fetch('/send-receipt', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        movie: modalMovie,
-                        time: modalTime,
-                        location: modalLocation,
-                        theater: modalTheater,
-                        seats: modalSeatList,
-                        totalPrice: modalTotalPrice,
-                    }),
-                });
+    // Send data to the backend
+    try {
+        const response = await fetch('/send-receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                movie,
+                time,
+                location,
+                theater,
+                seats: seatList,  // Send seats as an array
+                totalPrice,
+            }),
+        });
 
-                if (response.ok) {
-                    alert('Receipt sent successfully!');
-                    // Redirect to the homepage
-                    window.location.href = '/Home';
-                } else {
-                    const errorData = await response.json();
-                    console.error('Error sending receipt:', errorData.message);
-                    alert('Failed to send receipt. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('An error occurred. Please try again.');
-            }
-            });
+        if (response.ok) {
+            alert('Receipt sent successfully!');
+            // Redirect to the homepage or booking history
+            window.location.href = '/Home'; // Or '/booking-history'
+        } else {
+            const errorData = await response.json();
+            console.error('Error sending receipt:', errorData.message);
+            alert('Failed to send receipt. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please try again.');
+    }
+});
+
 
             document.querySelector(".modal-footer .btn-success").addEventListener("click", () => {
                 alert("Thank you! Your booking is complete.");

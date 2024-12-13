@@ -480,7 +480,8 @@ app.get('/get-discount', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
   });
-app.post('/send-receipt', async (req, res) => {
+
+  app.post('/send-receipt', async (req, res) => {
     const userId = req.session.user.id; // Assuming `id` is stored in the session after login
 
     try {
@@ -496,6 +497,9 @@ app.post('/send-receipt', async (req, res) => {
 
         const { Email } = user; // Extract email
         const { movie, time, location, theater, seats, totalPrice } = req.body;
+
+        // Ensure 'seats' is an array and join it into a string if it is
+        let seatList = Array.isArray(seats) ? seats.join(', ') : seats;
 
         // Configure nodemailer transporter
         const transporter = nodemailer.createTransport({
@@ -517,19 +521,19 @@ app.post('/send-receipt', async (req, res) => {
                 <p><strong>Time:</strong> ${time}</p>
                 <p><strong>Location:</strong> ${location}</p>
                 <p><strong>Theater:</strong> ${theater}</p>
-                <p><strong>Seats:</strong> ${seats.join(', ')}</p>
+                <p><strong>Seats:</strong> ${seatList}</p> <!-- Use seatList here -->
                 <p><strong>Total Price:</strong> ${totalPrice} THB</p>
                 <p>Thank you for booking with us!</p>
             `,
         };
 
-        // Send the email
+        // Send email
         await transporter.sendMail(mailOptions);
-
         res.status(200).json({ message: 'Receipt sent successfully!' });
+
     } catch (error) {
         console.error('Error sending email:', error);
-        res.status(500).json({ message: 'Failed to send receipt email.' });
+        res.status(500).json({ message: 'Failed to send receipt. Please try again.' });
     }
 });
 
