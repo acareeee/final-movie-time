@@ -491,48 +491,83 @@
     
             document.getElementById("purchaseTicket").addEventListener("click", async () => {
     // Extracting data from the receipt container
-    const movie = document.getElementById("receiptMovie").textContent;
-    const time = document.getElementById("showTime").textContent;
-    const location = document.getElementById("location").textContent;
-    const theater = document.getElementById("randomTheater").textContent;
+    const movie = document.getElementById("receiptMovie").textContent.trim();
+    const time = document.getElementById("showTime").textContent.trim();
+    const location = document.getElementById("location").textContent.trim();
+    const theater = document.getElementById("randomTheater").textContent.trim();
 
     // Get the selected seats (Assuming they are displayed as <li> elements under #selectedSeatsList)
     const seatList = Array.from(document.getElementById("selectedSeatsList").getElementsByTagName("li"))
-        .map(seat => seat.textContent);  // This assumes the seats are listed as <li> elements
+        .map(seat => seat.textContent.trim());  // This assumes the seats are listed as <li> elements
 
-    const totalPrice = document.getElementById("receiptTotalPrice").textContent;
+    const totalPrice = document.getElementById("receiptTotalPrice").textContent.trim();
 
-    // Send data to the backend
-    try {
-        const response = await fetch('/send-receipt', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                movie,
-                time,
-                location,
-                theater,
-                seats: seatList,  // Send seats as an array
-                totalPrice,
-            }),
-        });
-
-        if (response.ok) {
-            alert('Receipt sent successfully!');
-            // Redirect to the homepage or booking history
-            window.location.href = '/Home'; // Or '/booking-history'
-        } else {
-            const errorData = await response.json();
-            console.error('Error sending receipt:', errorData.message);
-            alert('Failed to send receipt. Please try again.');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again.');
+    // Ensure no fields are empty
+    if (!movie || !time || !location || !theater || seatList.length === 0 || !totalPrice) {
+        alert('Please complete all required fields.');
+        return;
     }
+
+    // Populate the modal with the ticket details
+    document.getElementById("modalMovie").textContent = movie;
+    document.getElementById("modalTime").textContent = time;
+    document.getElementById("modalLocation").textContent = location;
+    document.getElementById("modalTheater").textContent = theater;
+
+    // Clear existing seat list and populate new seats
+    const modalSeatList = document.getElementById("modalSeatList");
+    modalSeatList.innerHTML = ''; // Clear previous seat data
+    seatList.forEach(seat => {
+        const li = document.createElement("li");
+        li.textContent = seat;
+        modalSeatList.appendChild(li);
+    });
+
+    // Set the total price in the modal
+    document.getElementById("modalTotalPrice").textContent = totalPrice;
+
+    // Show the modal
+    const modal = new bootstrap.Modal(document.getElementById("ticketModal"));
+    modal.show();
+
+    // Send data to the backend after confirming
+    document.getElementById("confirmTicket").addEventListener("click", async () => {
+        try {
+            const response = await fetch('/send-receipt', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    movie,
+                    time,
+                    location,
+                    theater,
+                    seats: seatList,  // Send seats as an array
+                    totalPrice,
+                }),
+            });
+
+            if (response.ok) {
+                alert('Receipt sent successfully!');
+                // Redirect to the homepage or booking history
+                window.location.href = '/Home'; // Or '/booking-history'
+            } else {
+                const errorData = await response.json();
+                console.error('Error sending receipt:', errorData.message);
+                alert('Failed to send receipt. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
+
+        // Close the modal after confirming
+        modal.hide();
+    });
+
 });
+
 
 
             document.querySelector(".modal-footer .btn-success").addEventListener("click", () => {
@@ -555,19 +590,19 @@
             }
         });
 
-        document.getElementById("purchaseTicket").addEventListener("click", async () => {
-        await saveBooking(bookingData);
-        // ไปที่หน้าประวัติการจอง
-        window.location.href = "/booking-history.html";
-        });
+    //     document.getElementById("purchaseTicket").addEventListener("click", async () => {
+    //     await saveBooking(bookingData);
+    //     // ไปที่หน้าประวัติการจอง
+    //     window.location.href = "/booking-history.html";
+    //     });
 
-        document.getElementById("confirmTicket").addEventListener("click", () => {
-        alert("Ticket confirmed!");
-        // สามารถเพิ่มฟังก์ชันบันทึกข้อมูลหรือทำงานเพิ่มเติมได้
-        const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
-        modal.hide();
-        resetBooking(); // รีเซ็ตข้อมูลการจองหลังยืนยัน
-    });
+    //     document.getElementById("confirmTicket").addEventListener("click", () => {
+    //     alert("Ticket confirmed!");
+    //     // สามารถเพิ่มฟังก์ชันบันทึกข้อมูลหรือทำงานเพิ่มเติมได้
+    //     const modal = bootstrap.Modal.getInstance(document.getElementById("ticketModal"));
+    //     modal.hide();
+    //     resetBooking(); // รีเซ็ตข้อมูลการจองหลังยืนยัน
+    // });
 
 
     </script>
