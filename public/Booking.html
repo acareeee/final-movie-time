@@ -490,7 +490,6 @@
             }
     
             document.getElementById("purchaseTicket").addEventListener("click", async () => {
-    // Extracting data from the receipt container
     const movie = document.getElementById("receiptMovie").textContent.trim();
     const time = document.getElementById("showTime").textContent.trim();
     const location = document.getElementById("location").textContent.trim();
@@ -500,13 +499,16 @@
     const seatList = Array.from(document.getElementById("selectedSeatsList").getElementsByTagName("li"))
         .map(seat => seat.textContent.trim());  // This assumes the seats are listed as <li> elements
 
-    const totalPrice = document.getElementById("receiptTotalPrice").textContent.trim();
+    const totalPrice = parseFloat(document.getElementById("receiptTotalPrice").textContent.trim());
 
-    // Ensure no fields are empty
+    // Check if all fields are filled
     if (!movie || !time || !location || !theater || seatList.length === 0 || !totalPrice) {
         alert('Please complete all required fields.');
         return;
     }
+
+    // Apply discount using getTotalAfterDiscount function
+    const discountedPrice = getTotalAfterDiscount(totalPrice);  // Apply discount to the total price
 
     // Populate the modal with the ticket details
     document.getElementById("modalMovie").textContent = movie;
@@ -514,7 +516,6 @@
     document.getElementById("modalLocation").textContent = location;
     document.getElementById("modalTheater").textContent = theater;
 
-    // Clear existing seat list and populate new seats
     const modalSeatList = document.getElementById("modalSeatList");
     modalSeatList.innerHTML = ''; // Clear previous seat data
     seatList.forEach(seat => {
@@ -523,8 +524,8 @@
         modalSeatList.appendChild(li);
     });
 
-    // Set the total price in the modal
-    document.getElementById("modalTotalPrice").textContent = totalPrice;
+    // Set the discounted price in the modal
+    document.getElementById("modalTotalPrice").textContent = discountedPrice.toFixed(2);  // Show two decimal places
 
     // Show the modal
     const modal = new bootstrap.Modal(document.getElementById("ticketModal"));
@@ -544,14 +545,14 @@
                     location,
                     theater,
                     seats: seatList,  // Send seats as an array
-                    totalPrice,
+                    totalPrice: discountedPrice,  // Send the discounted price
                 }),
             });
 
             if (response.ok) {
                 alert('Receipt sent successfully!');
-                // Redirect to the homepage or booking history
-                window.location.href = '/Home'; // Or '/booking-history'
+                // Redirect to the home page after sending receipt
+                window.location.href = '/Home'; // Redirect to home page
             } else {
                 const errorData = await response.json();
                 console.error('Error sending receipt:', errorData.message);
@@ -565,9 +566,13 @@
         // Close the modal after confirming
         modal.hide();
     });
-
 });
 
+// Assuming getTotalAfterDiscount is a function that applies a discount and returns the new total price
+function getTotalAfterDiscount(originalPrice) {
+    const discount = 0.1;  // For example, a 10% discount
+    return originalPrice - (originalPrice * discount);  // Calculate the discounted price
+}
 
 
             document.querySelector(".modal-footer .btn-success").addEventListener("click", () => {
